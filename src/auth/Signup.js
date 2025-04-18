@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, Text, Alert } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, Text, Alert, ActivityIndicator } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './authStyles';
@@ -11,7 +11,7 @@ const Signup = ({ navigation }) => {
   const [confirm, setConfirm] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-
+ const [loading, setLoading] = useState(false);
   const handleSignup = () => {
    
     
@@ -22,6 +22,7 @@ const Signup = ({ navigation }) => {
       alert("Passwords do not match!");
       return;
     }
+    setLoading(true)
     fetch(`${url}/signup`, {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
@@ -29,11 +30,13 @@ const Signup = ({ navigation }) => {
     })
       .then((res) => res.json())
       .then((response) => {
+        setLoading(false); 
         console.log(response);
           Alert.alert("Signup successful!");
           navigation.navigate("Login")
       })
       .catch((err) => {
+        setLoading(false); 
         console.error(err);
         Alert.alert("Something went wrong. Please try again.");
       });
@@ -92,9 +95,24 @@ const Signup = ({ navigation }) => {
         }
       />
 
-      <TouchableOpacity onPress={handleSignup} style={styles.btn}>
-        <Text style={styles.btnText}>Signup</Text>
-      </TouchableOpacity>
+{
+                loading ? (
+                    <View style={{
+                        marginTop: 20,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        paddingVertical: 20,
+                        borderRadius: 10
+                    }}>
+                        <ActivityIndicator size="large" color="purple" />
+                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 16 }}>Signing in... Please wait</Text>
+                    </View>
+                ) : (
+                    <TouchableOpacity onPress={handleSignup} style={styles.btn}>
+                        <Text style={styles.btnText}>Signup</Text>
+                    </TouchableOpacity>
+                )
+            }
 
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
         <Text style={styles.loginText}>

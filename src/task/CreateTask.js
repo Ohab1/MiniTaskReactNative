@@ -249,6 +249,7 @@ const handleCreateTask = async () => {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#6200ea" />
+        <Text>Please wait task is creating...</Text>
       </View>
     );
   }
