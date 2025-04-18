@@ -1,6 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Older Android Versions -->
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+<!-- For Android 13+ -->
+<uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+
+<!-- Optional but useful if using camera or other media -->
+<uses-permission android:name="android.permission.CAMERA" />
 
     <application
       android:name=".MainApplication"
